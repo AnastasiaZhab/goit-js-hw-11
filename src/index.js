@@ -9,11 +9,11 @@ const parameters = 'image_type=photo&orientation=horizontal&safesearch=true'
 const refs = {
     onInputEl: document.querySelector('input'),
     submitBtnEl: document.querySelector('button'),
-    gallery: document.querySelector('.gallery'),
-
+    // gallery: document.querySelector('.gallery'),
+// 
 }
 
-console.log('bnmbnm');
+// console.log('bnmbnm');
 
 const getImage = (value) => {
     return axios.get(`${url}?key=${API_KEY}&q=${value}&${parameters}`);

@@ -27,7 +27,6 @@
   },
   "dependencies": {
     "axios": "^0.24.0",
-    "axois": "0.0.1-security",
     "notiflix": "^3.2.2"
   }
 }
