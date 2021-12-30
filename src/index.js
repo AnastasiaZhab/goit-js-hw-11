@@ -1,6 +1,5 @@
 import './sass/main.scss';
 import Notiflix from 'notiflix';
-// const axios = require('axios');
 import axios from 'axios';
 const url = 'https://pixabay.com/api/';
 const API_KEY = '24939535-87b6ece9ab011f11d00db958e';
@@ -9,11 +8,9 @@ const parameters = 'image_type=photo&orientation=horizontal&safesearch=true'
 const refs = {
     onInputEl: document.querySelector('input'),
     submitBtnEl: document.querySelector('button'),
-    // gallery: document.querySelector('.gallery'),
+    gallery: document.querySelector('.gallery'),
 // 
 }
-
-// console.log('bnmbnm');
 
 const getImage = (value) => {
     return axios.get(`${url}?key=${API_KEY}&q=${value}&${parameters}`);
@@ -26,12 +23,10 @@ async function onSearch(e) {
         const value = refs.onInputEl.value;
 
         const objectImages = await getImage(value);
-        console.log('objectImages', objectImages);
+        // console.log('objectImages', objectImages);
         const arrayImages = objectImages.data.hits;
-        console.log('arrayImages', arrayImages);
+        // console.log('arrayImages', arrayImages);
         const galleryItems = arrayImages.map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => {
-            console.log('likes', likes);
-            console.log(comments);
             return `<div class="photo-card">
             <a href="${largeImageURL}>
                 <img src="${webformatURL}" alt="${tags}" loading="lazy" />
@@ -58,7 +53,15 @@ async function onSearch(e) {
             `;
         }).join(' ');
 
-        refs.gallery.insertAdjacentHTML('beforeend', galleryItems);
+        refs.gallery.insertAdjacentHTML('afterbegin', galleryItems);
+
+        if (arrayImages.length === 0) {
+            Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.")
+        }
+        // if (value !== refs.onInputEl.value) {
+        //     refs.gallery.innerHTML = "";
+ 
+        // }
         
     } catch(error) {
         console.log(error);
@@ -66,41 +69,9 @@ async function onSearch(e) {
 }
 
 
-
-// getImage();
 refs.submitBtnEl.addEventListener('click', onSearch);
 
 
 
 
 
-
-
-
-
-// const createUser = options => {
-//     return axios.post('https://technical-b88ba-default-rtdb.europe-west1.firebasedatabase.app/users.json',
-//         options
-//     );
-// }
-
-// const getUserInfo = id => {
-//     return axios.get(`https://technical-b88ba-default-rtdb.europe-west1.firebasedatabase.app/users/${id}.json`
-//     );
-// }
-
-
-// const render = async () => {
-    //     console.log('start')
-//     const { data } = await createUser({
-    //         name: 'Olya',
-    //         language: 'en',
-//         skill: 'css'
-//     });
-//     console.log('после создания', data);
-//     const info = await getUserInfo(data.name);
-//     console.log('info', info)
-//     console.log('finish')
-
-// };
-// render();
