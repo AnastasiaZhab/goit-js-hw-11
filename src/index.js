@@ -23,30 +23,28 @@ async function onSearch(e) {
         const value = refs.onInputEl.value;
 
         const objectImages = await getImage(value);
-        // console.log('objectImages', objectImages);
         const arrayImages = objectImages.data.hits;
-        // console.log('arrayImages', arrayImages);
         const galleryItems = arrayImages.map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => {
             return `<div class="photo-card">
-            <a href="${largeImageURL}>
+            <a href="${largeImageURL}">
                 <img src="${webformatURL}" alt="${tags}" loading="lazy" />
                 </a>
                 <div class="info">
                     <p class="info-item">
                     <b>Likes</b>
-                    <b>${likes}</b>
+                    <span>${likes}</span>
                     </p>
                     <p class="info-item">
                     <b>Views</b>
-                    <b>${views}</b>
+                    <span>${views}</span>
                     </p>
                     <p class="info-item">
                     <b>Comments</b>
-                    <b>${comments}}</b>
+                    <span>${comments}</span>
                     </p>
                     <p class="info-item">
                     <b>Downloads</b>
-                    <b>${downloads}</b>
+                    <span>${downloads}</span>
                     </p>
                 </div>
                 </div>
@@ -58,10 +56,6 @@ async function onSearch(e) {
         if (arrayImages.length === 0) {
             Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.")
         }
-        // if (value !== refs.onInputEl.value) {
-        //     refs.gallery.innerHTML = "";
- 
-        // }
         
     } catch(error) {
         console.log(error);
