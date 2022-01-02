@@ -1,6 +1,9 @@
 import './sass/main.scss';
 import Notiflix from 'notiflix';
 import axios from 'axios';
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
+
 const url = 'https://pixabay.com/api/';
 const API_KEY = '24939535-87b6ece9ab011f11d00db958e';
 const parameters = 'image_type=photo&orientation=horizontal&safesearch=true';
@@ -26,31 +29,19 @@ const getImage = (value) => {
 
 function onSearch(e) {
     e.preventDefault();
+    refs.gallery.innerHTML = '';
 
     value = e.currentTarget.elements.searchQuery.value;
     createImagesBox();
-
-    console.log(value);
-    console.log(refs.inputValue.value)
-    
-    // if (refs.inputValue.value !== value) {
-    //     page = 1;
-    //     value = refs.inputValue.value;
-    //     console.log(value)
-    //     console.log(refs.inputValue.value)
-    //     refs.gallery.innerHTML('');
-    //     createImagesBox();
-    // }
-    
+    // lightbox();
+ 
         
-    
 }
 
 async function createImagesBox() {
-
+    
     try {
         let objectImages = await getImage(value);
-        // console.log(objectImages);
         const totalHits = objectImages.data.totalHits;
         let arrayImages = objectImages.data.hits;
         let galleryItems = arrayImages.map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => {
@@ -89,7 +80,7 @@ async function createImagesBox() {
 
         if (arrayImages.length < per_page) {
             refs.loadMoreBtn.classList.add('is-hidden');
-            Notiflix.Notify.info('We are sorry, but you have reached the end of search results.')
+            Notiflix.Notify.info(`We're sorry, but you've reached the end of search results.`)
         }
 
         if (page === 1) {
@@ -104,14 +95,28 @@ async function createImagesBox() {
 
 }
 
+
+const lightbox = e => {
+    e.preventDefault();
+    
+    new SimpleLightbox('.gallery a', {
+        overlay: true,
+        captions: true,
+        showCounter: true,
+        close: true,
+    })
+}
+
 function onLoadMore() {
     page += 1;
     createImagesBox();
+    lightbox.refresh();
+
 }
 
 refs.searchForm.addEventListener('submit', onSearch);
 refs.loadMoreBtn.addEventListener('click', onLoadMore);
-
+refs.gallery.addEventListener('click', lightbox);
 
 
 
