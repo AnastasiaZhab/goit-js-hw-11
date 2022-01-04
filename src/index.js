@@ -9,7 +9,7 @@ const API_KEY = '24939535-87b6ece9ab011f11d00db958e';
 const parameters = 'image_type=photo&orientation=horizontal&safesearch=true';
 const per_page = 40;
 let value = '';
-let page = 1;
+let page;
 
 
 const refs = {
@@ -30,8 +30,10 @@ const getImage = (value) => {
 function onSearch(e) {
     e.preventDefault();
     refs.gallery.innerHTML = '';
+    page = 1;
 
     value = e.currentTarget.elements.searchQuery.value;
+    refs.loadMoreBtn.classList.add('is-hidden');
     createImagesBox();
  
         
